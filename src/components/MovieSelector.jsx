@@ -9,19 +9,28 @@ export default function MovieSelector() {
 
     // simulates fetching data from a server. data.json is in the public folder served by Vite's server
     const fetchData = async () => {
-        const response = await fetch("/data.json");
-        if (!response.ok) {
-            setError(`Failed to fetch the movie data. HTTP response code: ${response.status}`);
-            return;
+        try {
+            const response = await fetch("/data.json");
+            if (!response.ok) {
+                throw new Error();
+            }
+            const data = await response.json();
+            setAllMovies(data);
+        } catch (err) {
+            setError("Something went wrong: failed to fetch data.");
         }
-        const data = await response.json();
-        setAllMovies(data);
-        
     }
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    // if there is an error return the error message
+    if (error) {
+        return (
+            <div>{ error }</div>
+        )
+    }
 
     let moviesJSX;
     let genresJSX;
