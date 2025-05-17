@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 
 export default function MovieSelector() {
@@ -25,24 +25,32 @@ export default function MovieSelector() {
         fetchData();
     }, []);
 
-    // if there is an error return the error message
+    let genresJSX = allMovies 
+        ? Object.keys(allMovies).map(genre => <option key={genre} value={ genre }>{ genre }</option>)
+        : null; 
+
+    // runs only if selectedGenre or allMovies has changed
+    let moviesJSX = useMemo(() => {
+        let res = null;
+        if (allMovies) {
+            if (selectedGenre) {
+                res = allMovies[selectedGenre].map((movie, index) => <li key={index}>{ movie }</li>);
+            } else {
+                // default value for the displayed movies is the first option
+                res = allMovies[Object.keys(allMovies)[0]].map((movie, index) => <li key={index}>{ movie }</li>);
+            }
+        }
+        return res;    
+    }, [selectedGenre, allMovies]);
+        
+    
+    // if there is an error returns the error message
     if (error) {
         return (
             <div>{ error }</div>
         )
     }
 
-    let moviesJSX;
-    let genresJSX;
-    if (allMovies) {
-        genresJSX = Object.keys(allMovies).map(genre => <option key={genre} value={ genre }>{ genre }</option>); 
-        // default value for the displayed movies is the first option
-        moviesJSX = allMovies[Object.keys(allMovies)[0]].map((movie, index) => <li key={index}>{ movie }</li>);
-    }
-    if (selectedGenre) {
-        moviesJSX = allMovies[selectedGenre].map((movie, index) => <li key={index}>{ movie }</li>);
-    }
-    
     return (
         <>
         {loading
