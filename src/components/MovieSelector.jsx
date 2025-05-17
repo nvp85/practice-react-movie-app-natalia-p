@@ -6,10 +6,8 @@ export default function MovieSelector() {
     const [error, setError] = useState("");
     const [ selectedGenre, setSelectedGenre ] = useState(null);
     let loading = !allMovies ? true : false; 
-    console.log("render...");
-    console.log(allMovies);
-    console.log(selectedGenre);
 
+    // simulates fetching data from a server. data.json is in the public folder served by Vite's server
     const fetchData = async () => {
         const response = await fetch("/data.json");
         if (!response.ok) {
@@ -25,35 +23,42 @@ export default function MovieSelector() {
         fetchData();
     }, []);
 
-
     let moviesJSX;
     let genresJSX;
-
+    if (allMovies) {
+        genresJSX = Object.keys(allMovies).map(genre => <option key={genre} value={ genre }>{ genre }</option>); 
+        // default value for the displayed movies is the first option
+        moviesJSX = allMovies[Object.keys(allMovies)[0]].map((movie, index) => <li key={index}>{ movie }</li>);
+    }
     if (selectedGenre) {
         moviesJSX = allMovies[selectedGenre].map((movie, index) => <li key={index}>{ movie }</li>);
-        
     }
-
-    if (loading) {
-        return (
-            <div>
-                <h3>Loading...</h3>
-            </div>
-        )
-    }
-    genresJSX = Object.keys(allMovies).map(genre => <option key={genre} value={ genre }>{ genre }</option>);
+    
     return (
-        <div>
-            <h1>List of top 5 movies by genres</h1>
-            <label>
-            Pick a genre: 
-                <select name="selectedGenre" defaultValue={ Object.keys(allMovies)[0] } onChange={(e) => setSelectedGenre(e.target.value)}>
-                    { genresJSX }
-                </select>
-            </label>
-            <ol>
-                { moviesJSX }
-            </ol>
-        </div>
+        <>
+        {loading
+            ?
+            (<div>
+                <h3>Loading...</h3>
+            </div>)
+            :
+            (<div>
+                <h1>List of top 5 movies by genres</h1>
+                <label>
+                Pick a genre: 
+                    <select 
+                        name="selectedGenre" 
+                        defaultValue={ Object.keys(allMovies)[0] } 
+                        onChange={(e) => setSelectedGenre(e.target.value)}
+                    >
+                        { genresJSX }
+                    </select>
+                </label>
+                <ol>
+                    { moviesJSX }
+                </ol>
+            </div>)
+        }
+        </>
     )
 }
