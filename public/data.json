@@ -1,0 +1,30 @@
+{
+    "Action": [
+        "Terminator 2: Judgment Day",
+        "Die Hard",
+        "Raiders of the Lost Ark",
+        "The Dark Knight",
+        "Hard Boiled"
+    ],
+    "Drama": [
+        "Thunderbolts",
+        "Sinners",
+        "Conclave",
+        "Warfare",
+        "Havoc"
+    ],
+    "Comedy": [
+        "Good Boys",
+        "Stuber",
+        "Shazam!",
+        "When We First Met",
+        "Blockers"
+    ],
+    "Horror": [
+        "Sinners",
+        "Final Destination",
+        "Until Dawn",
+        "The Long Walk",
+        "Together"
+    ]
+}
