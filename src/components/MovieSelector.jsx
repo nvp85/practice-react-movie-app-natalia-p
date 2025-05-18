@@ -25,12 +25,12 @@ export default function MovieSelector() {
         setTimeout(fetchData, 2000);
     }, []);
 
-    let genresJSX = allMovies 
+    const genresJSX = allMovies 
         ? Object.keys(allMovies).map(genre => <option key={genre} value={ genre }>{ genre }</option>)
         : null; 
 
     // runs only if selectedGenre or allMovies has changed
-    let moviesJSX = useMemo(() => {
+    const moviesJSX = useMemo(() => {
         let res = null;
         if (allMovies) {
             if (selectedGenre) {
