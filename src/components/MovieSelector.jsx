@@ -22,7 +22,7 @@ export default function MovieSelector() {
     }
 
     useEffect(() => {
-        setTimeout(() => fetchData(), 2000);
+        setTimeout(fetchData, 2000);
     }, []);
 
     let genresJSX = allMovies 
